@@ -1,7 +1,7 @@
 import React from "react";
 
 import { View, Text, StyleSheet } from "react-native";
-// import SvgExample from "./SvgExample";
+import SvgExample from "./SvgExample";
 
 const MAX_FONT_SIZE = 16;
 
@@ -19,7 +19,7 @@ export default ({ refreshing, visibility }) => (
         }
     >
         {refreshing ? (
-            <Text style={styles.refreshing}>Refreshing!</Text>
+            <SvgExample />
         ) : (
             <Text
                 style={{
