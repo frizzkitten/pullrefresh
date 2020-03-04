@@ -16,8 +16,8 @@ export default class RotateCW extends React.Component {
         this.animation = Animated.loop(
             Animated.timing(this.rotation, {
                 toValue: 1,
-                duration: 2000,
-                easing: Easing.linear
+                duration: 1500,
+                easing: Easing.bezier(0.455, 0.03, 0.515, 0.955)
             })
         );
         this.animation.start();
