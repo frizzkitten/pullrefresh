@@ -5,13 +5,16 @@ import Svg, { Path } from "react-native-svg";
 export default class RotateCW extends React.Component {
     constructor() {
         super();
+        // value that will change with rotation animation from 0 to 1
         this.rotation = new Animated.Value(0);
     }
 
+    // start animation on mount
     componentDidMount() {
         this._start_rotating();
     }
 
+    // create rotation animation and start it
     _start_rotating() {
         this.animation = Animated.loop(
             Animated.timing(this.rotation, {
@@ -23,11 +26,13 @@ export default class RotateCW extends React.Component {
         this.animation.start();
     }
 
+    // stop the animation on unmount
     componentWillUnmount() {
         this.animation.stop();
     }
 
     render() {
+        // map 0 to 1 values to "0deg" to "360deg" values
         const rotate = this.rotation.interpolate({
             inputRange: [0, 1],
             outputRange: ["0deg", "360deg"]
