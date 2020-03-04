@@ -3,7 +3,7 @@ import React from "react";
 import { ScrollView, Text } from "react-native";
 import RefreshIcon from "./RefreshIcon";
 
-const START_REFRESH_AT = -40;
+const START_REFRESH_AT = -80;
 
 export default class RefreshableList extends React.Component {
     constructor(props) {

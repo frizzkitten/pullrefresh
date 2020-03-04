@@ -37,14 +37,6 @@ export default ({ refreshing, visibility }) => {
     );
 };
 
-// <Text
-//     style={{
-//         fontSize: MAX_FONT_SIZE * (visibility >= 1 ? 1 : visibility)
-//     }}
-// >
-//     getting ready...
-// </Text>
-
 const styles = StyleSheet.create({
     refreshing: { marginTop: 0 },
     not_refreshing: { height: 20, marginTop: -20 },
