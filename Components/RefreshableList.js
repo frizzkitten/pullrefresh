@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ScrollView, Text, StyleSheet } from "react-native";
+import { ScrollView, Text } from "react-native";
 import RefreshIcon from "./RefreshIcon";
 
 const START_REFRESH_AT = -80;
@@ -66,13 +66,9 @@ export default class RefreshableList extends React.Component {
         } = this.props;
         const { scroll_y, holding_since_refresh } = this.state;
 
-        const scroll_style = refreshing
-            ? styles.refreshing
-            : styles.not_refreshing;
-
         return (
             <ScrollView
-                style={{ ...style, ...scroll_style }}
+                style={style}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={this._handle_scroll}
                 onScrollEndDrag={this._handle_scroll_end}
@@ -90,10 +86,3 @@ export default class RefreshableList extends React.Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    refreshing: {
-        /*paddingTop: 54*/
-    },
-    not_refreshing: {}
-});
