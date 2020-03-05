@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ScrollView, Text } from "react-native";
+import { ScrollView } from "react-native";
 import RefreshIcon from "./RefreshIcon";
 
 const START_REFRESH_AT = -80;
@@ -68,7 +68,7 @@ export default class RefreshableList extends React.Component {
 
         return (
             <ScrollView
-                style={style}
+                style={{ ...style, marginTop: refreshing ? 54 : 0 }}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={this._handle_scroll}
                 onScrollEndDrag={this._handle_scroll_end}
