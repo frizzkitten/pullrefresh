@@ -13,28 +13,21 @@ const ICON_COLOR = "black";
 export default ({ refreshing, visibility }) => {
     const scale = visibility < 0 ? 0 : visibility > 1 ? 1 : visibility;
 
-    return (
-        <View
-            style={
-                refreshing
-                    ? styles.refreshing
-                    : visibility <= 0
-                    ? styles.invisible
-                    : styles.not_refreshing
-            }
-        >
-            {refreshing ? (
-                <RotateCW stroke={ICON_COLOR} />
-            ) : (
-                <View>
-                    <DownArrow
-                        stroke={ICON_COLOR}
-                        style={{ transform: [{ scale }], opacity: scale }}
-                    />
-                </View>
-            )}
-        </View>
-    );
+    if (refreshing)
+        return <RotateCW stroke={ICON_COLOR} style={styles.refreshing} />;
+    else
+        return (
+            <DownArrow
+                stroke={ICON_COLOR}
+                style={{
+                    transform: [{ scale }],
+                    opacity: scale,
+                    ...(visibility <= 0
+                        ? styles.invisible
+                        : styles.not_refreshing)
+                }}
+            />
+        );
 };
 
 const styles = StyleSheet.create({
