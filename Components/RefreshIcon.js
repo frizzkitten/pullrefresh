@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import DownArrow from "./SVG/DownArrow";
 import RotateCW from "./SVG/RotateCW";
 
@@ -14,19 +14,19 @@ export default ({ refreshing, visibility }) => {
     const scale = visibility < 0 ? 0 : visibility > 1 ? 1 : visibility;
 
     return (
-        <View
-            style={
-                refreshing
-                    ? styles.refreshing
-                    : visibility <= 0
-                    ? styles.invisible
-                    : styles.not_refreshing
-            }
-        >
+        <View>
             {refreshing ? (
-                <RotateCW stroke={ICON_COLOR} />
+                <Animated.View style={styles.refreshing}>
+                    <RotateCW stroke={ICON_COLOR} />
+                </Animated.View>
             ) : (
-                <View>
+                <View
+                    style={
+                        visibility <= 0
+                            ? styles.invisible
+                            : styles.not_refreshing
+                    }
+                >
                     <DownArrow
                         stroke={ICON_COLOR}
                         style={{ transform: [{ scale }], opacity: scale }}
@@ -38,7 +38,7 @@ export default ({ refreshing, visibility }) => {
 };
 
 const styles = StyleSheet.create({
-    refreshing: { height: 24, marginTop: -24 },
+    refreshing: { height: 24, marginTop: 30 },
     not_refreshing: { height: 24, marginTop: -24 },
     invisible: { display: "none" }
 });

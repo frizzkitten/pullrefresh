@@ -28,15 +28,14 @@ export default class RefreshableList extends React.Component {
         const { y } = event.nativeEvent.contentOffset;
         // if not already refreshing but should be based on y position,
         // start refresh
-        if (y <= START_REFRESH_AT && !this.props.refreshing)
+        if (y <= START_REFRESH_AT && !this.props.refreshing) {
             this.props.on_refresh();
+            // // scroll to
+            // let { scroll_view } = this;
+            // console.log("scroll_view: ", scroll_view);
+            // scroll_view.scrollTo({ y: -24, animated: true });
+        }
     };
-
-    // _scroll_down = y => {
-    //     let { scroll_view } = this;
-    //     console.log("scroll_view: ", scroll_view);
-    //     scroll_view.scrollTo({ y: -24, animated: false });
-    // };
 
     render() {
         const {
@@ -71,6 +70,8 @@ export default class RefreshableList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    refreshing: { paddingTop: 54 },
+    refreshing: {
+        /*paddingTop: 54*/
+    },
     not_refreshing: {}
 });
