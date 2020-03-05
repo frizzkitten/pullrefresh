@@ -18,20 +18,18 @@ export default class RefreshableList extends React.Component {
     // check if it's high enough to refresh,
     _handle_scroll = event => {
         const { y } = event.nativeEvent.contentOffset;
-        if (y < 0) {
-            // if not already refreshing but should be based on y position,
-            // start refresh
-            if (y <= START_REFRESH_AT && !this.props.refreshing) {
-                this.props.on_refresh();
-                // scroll down so that the page doesn't jump
-                // this._scroll_down(y);
-            }
-            // update y in state
-            this.setState({ scroll_y: y });
-        }
-
+        // update y in state
+        if (y < 0) this.setState({ scroll_y: y });
         // if scroll_y is negative, set it to 0
         else if (this.state.scroll_y < 0) this.setState({ scroll_y: 0 });
+    };
+
+    _handle_scroll_end = event => {
+        const { y } = event.nativeEvent.contentOffset;
+        // if not already refreshing but should be based on y position,
+        // start refresh
+        if (y <= START_REFRESH_AT && !this.props.refreshing)
+            this.props.on_refresh();
     };
 
     // _scroll_down = y => {
@@ -59,8 +57,8 @@ export default class RefreshableList extends React.Component {
                 style={{ ...style, ...scroll_style }}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={this._handle_scroll}
+                onScrollEndDrag={this._handle_scroll_end}
                 scrollEventThrottle={16}
-                ref={scroll_view => (this.scroll_view = scroll_view)}
             >
                 <RefreshIcon
                     refreshing={refreshing}
@@ -73,6 +71,6 @@ export default class RefreshableList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    refreshing: {},
+    refreshing: { paddingTop: 54 },
     not_refreshing: {}
 });
