@@ -17,13 +17,11 @@ export default class CardList extends React.Component {
     // tells component that refresh has started, calls data retriever,
     // tells itself it's done refreshing
     _on_refresh = () => {
-        console.log("starting refresh");
         this.setState({ refreshing: true });
 
         this._wait_then_add_card()
             .then(() => {
                 this.setState({ refreshing: false });
-                console.log("done refreshing!");
             })
             .catch(error => console.log(error));
     };
