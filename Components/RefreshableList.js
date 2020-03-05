@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ScrollView, Text } from "react-native";
+import { ScrollView, Text, StyleSheet } from "react-native";
 import RefreshIcon from "./RefreshIcon";
 
 const START_REFRESH_AT = -80;
@@ -21,8 +21,11 @@ export default class RefreshableList extends React.Component {
         if (y < 0) {
             // if not already refreshing but should be based on y position,
             // start refresh
-            if (y <= START_REFRESH_AT && !this.props.refreshing)
+            if (y <= START_REFRESH_AT && !this.props.refreshing) {
                 this.props.on_refresh();
+                // scroll down so that the page doesn't jump
+                // this._scroll_down(y);
+            }
             // update y in state
             this.setState({ scroll_y: y });
         }
@@ -30,6 +33,12 @@ export default class RefreshableList extends React.Component {
         // if scroll_y is negative, set it to 0
         else if (this.state.scroll_y < 0) this.setState({ scroll_y: 0 });
     };
+
+    // _scroll_down = y => {
+    //     let { scroll_view } = this;
+    //     console.log("scroll_view: ", scroll_view);
+    //     scroll_view.scrollTo({ y: -24, animated: false });
+    // };
 
     render() {
         const {
@@ -41,12 +50,17 @@ export default class RefreshableList extends React.Component {
         } = this.props;
         const { scroll_y } = this.state;
 
+        const scroll_style = refreshing
+            ? styles.refreshing
+            : styles.not_refreshing;
+
         return (
             <ScrollView
-                style={style}
+                style={{ ...style, ...scroll_style }}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={this._handle_scroll}
                 scrollEventThrottle={16}
+                ref={scroll_view => (this.scroll_view = scroll_view)}
             >
                 <RefreshIcon
                     refreshing={refreshing}
@@ -57,3 +71,8 @@ export default class RefreshableList extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    refreshing: {},
+    not_refreshing: {}
+});

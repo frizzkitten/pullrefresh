@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import RefreshableList from "./RefreshableList";
 import Card from "./Card";
 
@@ -50,10 +50,6 @@ export default class CardList extends React.Component {
                 refreshing={this.state.refreshing}
                 on_refresh={this._on_refresh}
             >
-                <TouchableOpacity onPress={this._on_refresh}>
-                    <Text>Yo</Text>
-                </TouchableOpacity>
-
                 {this.state.cards.map(card_num => (
                     <Card text={`Tile ${card_num}`} key={card_num} />
                 ))}

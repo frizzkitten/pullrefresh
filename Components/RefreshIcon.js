@@ -38,7 +38,7 @@ export default ({ refreshing, visibility }) => {
 };
 
 const styles = StyleSheet.create({
-    refreshing: { marginTop: 0 },
-    not_refreshing: { height: 20, marginTop: -20 },
+    refreshing: { height: 24, marginTop: -24 },
+    not_refreshing: { height: 24, marginTop: -24 },
     invisible: { display: "none" }
 });
