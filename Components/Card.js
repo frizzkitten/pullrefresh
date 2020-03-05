@@ -7,26 +7,32 @@ const height = 194;
 export default class Card extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { marginTop: new Animated.Value(30) };
+        this.solidness = new Animated.Value(0);
     }
 
-    // componentDidMount() {
-    //     // Animated.timing(this.state.marginTop, {
-    //     //     toValue: 30,
-    //     //     duration: 500
-    //     // }).start();
-    // }
+    componentDidMount() {
+        Animated.timing(this.solidness, {
+            toValue: 1,
+            duration: 1000
+        }).start();
+    }
 
     render() {
+        const marginTop = this.solidness.interpolate({
+            inputRange: [0, 1],
+            outputRange: [-height, 30]
+        });
+
         return (
-            <View
+            <Animated.View
                 style={{
                     ...styles.container,
-                    marginTop: this.state.marginTop
+                    marginTop: marginTop || 30,
+                    opacity: this.solidness || 1
                 }}
             >
                 <Text style={styles.text}>{this.props.text}</Text>
-            </View>
+            </Animated.View>
         );
     }
 }
