@@ -2,6 +2,7 @@ import React from "react";
 import { Animated, Easing } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
+// arrow that rotates around clockwise forever
 class RotateCW extends React.Component {
     constructor(props) {
         super(props);
@@ -42,7 +43,6 @@ class RotateCW extends React.Component {
             <Animated.View style={{ transform: [{ rotate }] }}>
                 <Svg
                     width={this.props.height}
-                    height={this.props.height}
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"

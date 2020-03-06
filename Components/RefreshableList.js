@@ -9,6 +9,7 @@ const REFRESH_ICON_HEIGHT = 24;
 const REFRESH_ICON_MARGIN_TOP = 30;
 const TOTAL_REFRESH_ICON_HEIGHT = REFRESH_ICON_HEIGHT + REFRESH_ICON_MARGIN_TOP;
 
+// scrollable list that can hold anything and refreshes on pulldown
 export default class RefreshableList extends React.Component {
     constructor(props) {
         super(props);

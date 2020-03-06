@@ -7,6 +7,8 @@ import RotateCW from "./SVG/RotateCW";
 const MAX_FONT_SIZE = 16;
 const ICON_COLOR = "black";
 
+// icon that goes from one appearance when leading up to
+// refreshing to another when actually refreshing
 class RefreshIcon extends React.Component {
     constructor(props) {
         super(props);

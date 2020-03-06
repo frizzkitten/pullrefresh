@@ -1,11 +1,11 @@
 import React from "react";
 import Svg, { Path } from "react-native-svg";
 
+// just a nice little arrow that points down
 function DownArrow(props) {
     return (
         <Svg
             width={props.height}
-            height={props.height}
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
