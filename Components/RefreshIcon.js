@@ -7,13 +7,10 @@ import RotateCW from "./SVG/RotateCW";
 const MAX_FONT_SIZE = 16;
 const ICON_COLOR = "black";
 
-// refreshing: whether should show a "currently updating" icon
-// visibility: how close you are to starting a refresh. anything
-// above 1 indicates that you are at a max
-export default class RefreshIcon extends React.Component {
+class RefreshIcon extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { marginTop: new Animated.Value(-24) };
+        this.state = { marginTop: new Animated.Value(-this.props.icon_height) };
     }
 
     componentDidUpdate(prevProps) {
@@ -21,34 +18,46 @@ export default class RefreshIcon extends React.Component {
         if (prevProps.refreshing && !this.props.refreshing)
             this._start_disappear_animation();
         else if (!prevProps.refreshing && this.props.refreshing)
-            this.setState({ marginTop: new Animated.Value(30) });
+            this.setState({
+                marginTop: new Animated.Value(this.props.margin_top)
+            });
     }
 
     // initiate the animation the removes the spinning arrow
     _start_disappear_animation = () => {
         Animated.timing(this.state.marginTop, {
-            toValue: -24,
+            toValue: -this.props.icon_height,
             duration: 300
         }).start();
     };
 
     render() {
-        const { refreshing, visibility } = this.props;
+        const { refreshing, visibility, icon_height, margin_top } = this.props;
 
+        // make sure scale is a number between 0 and 1
         const scale = visibility < 0 ? 0 : visibility > 1 ? 1 : visibility;
-        const marginTop = this.state.marginTop || -24;
+        // -icon_height will ensure it is just out of sight
+        const marginTop = this.state.marginTop || -icon_height;
 
         return (
-            <Animated.View style={{ marginTop, height: 24 }}>
+            <Animated.View style={{ marginTop, height: icon_height }}>
                 {refreshing ? (
-                    <RotateCW stroke={ICON_COLOR} />
+                    <RotateCW stroke={ICON_COLOR} height={icon_height} />
                 ) : (
                     <DownArrow
                         stroke={ICON_COLOR}
                         style={{ transform: [{ scale }], opacity: scale }}
+                        height={icon_height}
                     />
                 )}
             </Animated.View>
         );
     }
 }
+
+RefreshIcon.defaultProps = {
+    icon_height: 24,
+    margin_top: 30
+};
+
+export default RefreshIcon;

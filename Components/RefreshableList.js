@@ -3,7 +3,7 @@ import React from "react";
 import { ScrollView } from "react-native";
 import RefreshIcon from "./RefreshIcon";
 
-const START_REFRESH_AT = -80;
+const START_REFRESH_AT = -54;
 
 const REFRESH_ICON_HEIGHT = 24;
 const REFRESH_ICON_MARGIN_TOP = 30;
@@ -53,8 +53,8 @@ export default class RefreshableList extends React.Component {
             // don't refresh if user is still holding scroll from last refresh
             !this.state.holding_since_refresh
         ) {
-            this.props.on_refresh();
             this.setState({ let_go_at: y });
+            this.props.on_refresh();
         }
     };
 
@@ -91,6 +91,8 @@ export default class RefreshableList extends React.Component {
                     visibility={
                         holding_since_refresh ? 0 : scroll_y / START_REFRESH_AT
                     }
+                    icon_height={REFRESH_ICON_HEIGHT}
+                    margin_top={REFRESH_ICON_MARGIN_TOP}
                 />
                 {children}
             </ScrollView>
