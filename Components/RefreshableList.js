@@ -5,31 +5,64 @@ import RefreshIcon from "./RefreshIcon";
 
 const START_REFRESH_AT = -54;
 
+const REFRESH_ICON_HEIGHT = 24;
+const REFRESH_ICON_MARGIN_TOP = 30;
+const TOTAL_REFRESH_ICON_HEIGHT = REFRESH_ICON_HEIGHT + REFRESH_ICON_MARGIN_TOP;
+
+// scrollable list that can hold anything and refreshes on pulldown
 export default class RefreshableList extends React.Component {
     constructor(props) {
         super(props);
 
-        // TODO: potentially shouldn't start this at 0
-        // will be set at 0 if scrolled past 0
-        this.state = { scroll_y: 0 };
+        this.state = {
+            // the distance the user has scrolled
+            scroll_y: 0,
+            // true if the user started scrolling during a refresh
+            // and is still scrolling
+            holding_since_refresh: false,
+            // the y coordinate when a refresh was initiated
+            let_go_at: -TOTAL_REFRESH_ICON_HEIGHT
+        };
     }
 
-    // TODO: on scroll, check if already refreshing, and if not,
+    // on scroll, check if already refreshing, and if not,
     // check if it's high enough to refresh,
     _handle_scroll = event => {
         const { y } = event.nativeEvent.contentOffset;
-        if (y < 0) {
-            // if not already refreshing but should be based on y position,
-            // start refresh
-            if (y <= START_REFRESH_AT && !this.props.refreshing)
-                this.props.on_refresh();
-            // update y in state
-            this.setState({ scroll_y: y });
-        }
-
+        // update y in state
+        if (y < 0)
+            this.setState({
+                scroll_y: y,
+                holding_since_refresh:
+                    this.props.refreshing || this.state.holding_since_refresh
+            });
         // if scroll_y is negative, set it to 0
+        // ignore any positive y, no need to keep track of that
         else if (this.state.scroll_y < 0) this.setState({ scroll_y: 0 });
     };
+
+    // when scrolling ends, refresh if needed
+    _handle_scroll_end = event => {
+        // y scroll position
+        const { y } = event.nativeEvent.contentOffset;
+        // check if should refresh
+        if (
+            // start if scrolled high enough
+            y <= START_REFRESH_AT &&
+            // don't refresh if already refreshing
+            !this.props.refreshing &&
+            // don't refresh if user is still holding scroll from last refresh
+            !this.state.holding_since_refresh
+        ) {
+            this.setState({ let_go_at: y });
+            this.props.on_refresh();
+        }
+    };
+
+    // when scroll momentum ends the user can't be holding the scroll
+    // anymore, so allow scroll refresh to happen again
+    _handle_momentum_scroll_end = () =>
+        this.setState({ holding_since_refresh: false });
 
     render() {
         const {
@@ -39,18 +72,28 @@ export default class RefreshableList extends React.Component {
             refreshing,
             on_refresh
         } = this.props;
-        const { scroll_y } = this.state;
+        const { scroll_y, holding_since_refresh } = this.state;
 
         return (
             <ScrollView
                 style={style}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={this._handle_scroll}
+                onScrollEndDrag={this._handle_scroll_end}
+                onMomentumScrollEnd={this._handle_momentum_scroll_end}
                 scrollEventThrottle={16}
+                contentOffset={{
+                    x: 0,
+                    y: this.state.let_go_at + TOTAL_REFRESH_ICON_HEIGHT
+                }}
             >
                 <RefreshIcon
                     refreshing={refreshing}
-                    visibility={scroll_y / START_REFRESH_AT}
+                    visibility={
+                        holding_since_refresh ? 0 : scroll_y / START_REFRESH_AT
+                    }
+                    icon_height={REFRESH_ICON_HEIGHT}
+                    margin_top={REFRESH_ICON_MARGIN_TOP}
                 />
                 {children}
             </ScrollView>

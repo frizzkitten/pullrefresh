@@ -7,10 +7,12 @@ import Card from "./Card";
 // length of time to wait before adding a card
 const WAIT_TIME = 2000;
 
+// a scrollable list that holds only cards and refreshes on pulldown
 export default class CardList extends React.Component {
     constructor(props) {
         super(props);
 
+        // start out with 2 and 1 just to show what they look like
         this.state = { cards: [2, 1] };
     }
 
@@ -20,9 +22,7 @@ export default class CardList extends React.Component {
         this.setState({ refreshing: true });
 
         this._wait_then_add_card()
-            .then(() => {
-                this.setState({ refreshing: false });
-            })
+            .then(() => this.setState({ refreshing: false }))
             .catch(error => console.log(error));
     };
 
