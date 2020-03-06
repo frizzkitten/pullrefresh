@@ -39,7 +39,7 @@ export default class RefreshIcon extends React.Component {
         const marginTop = this.state.marginTop || -24;
 
         return (
-            <Animated.View style={{ marginTop }}>
+            <Animated.View style={{ marginTop, height: 24 }}>
                 {refreshing ? (
                     <RotateCW stroke={ICON_COLOR} />
                 ) : (

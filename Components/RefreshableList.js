@@ -5,6 +5,10 @@ import RefreshIcon from "./RefreshIcon";
 
 const START_REFRESH_AT = -80;
 
+const REFRESH_ICON_HEIGHT = 24;
+const REFRESH_ICON_MARGIN_TOP = 30;
+const TOTAL_REFRESH_ICON_HEIGHT = REFRESH_ICON_HEIGHT + REFRESH_ICON_MARGIN_TOP;
+
 export default class RefreshableList extends React.Component {
     constructor(props) {
         super(props);
@@ -14,7 +18,9 @@ export default class RefreshableList extends React.Component {
             scroll_y: 0,
             // true if the user started scrolling during a refresh
             // and is still scrolling
-            holding_since_refresh: false
+            holding_since_refresh: false,
+            // the y coordinate when a refresh was initiated
+            let_go_at: -TOTAL_REFRESH_ICON_HEIGHT
         };
     }
 
@@ -48,6 +54,7 @@ export default class RefreshableList extends React.Component {
             !this.state.holding_since_refresh
         ) {
             this.props.on_refresh();
+            this.setState({ let_go_at: y });
         }
     };
 
@@ -68,12 +75,16 @@ export default class RefreshableList extends React.Component {
 
         return (
             <ScrollView
-                style={{ ...style, marginTop: refreshing ? 54 : 0 }}
+                style={style}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={this._handle_scroll}
                 onScrollEndDrag={this._handle_scroll_end}
                 onMomentumScrollEnd={this._handle_momentum_scroll_end}
                 scrollEventThrottle={16}
+                contentOffset={{
+                    x: 0,
+                    y: this.state.let_go_at + TOTAL_REFRESH_ICON_HEIGHT
+                }}
             >
                 <RefreshIcon
                     refreshing={refreshing}
