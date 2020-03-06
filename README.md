@@ -6,7 +6,9 @@ Then, once inside the directory for this project, run the following:
 
     npm install -g react-native@latest
     brew install cocoapods
+    cd ios
     pod install
+    cd ..
     npm install
     npx react-native run-ios
 
