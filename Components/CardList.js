@@ -11,6 +11,7 @@ export default class CardList extends React.Component {
     constructor(props) {
         super(props);
 
+        // start out with 2 and 1 just to show what they look like
         this.state = { cards: [2, 1] };
     }
 

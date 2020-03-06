@@ -2,9 +2,7 @@ import React from "react";
 
 import { StyleSheet, View } from "react-native";
 
-export default function HeaderBox() {
-    return <View style={styles.container} />;
-}
+export default () => <View style={styles.container} />;
 
 const styles = StyleSheet.create({
     container: {

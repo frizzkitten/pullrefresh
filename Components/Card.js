@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, StyleSheet, Animated } from "react-native";
+import { Text, Animated, StyleSheet } from "react-native";
 
 const height = 194;
 
@@ -37,7 +37,7 @@ export default class Card extends React.Component {
     }
 }
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -49,7 +49,5 @@ const styles = {
         backgroundColor: "#fff",
         padding: 30
     },
-    text: {
-        fontSize: 17
-    }
-};
+    text: { fontSize: 17 }
+});

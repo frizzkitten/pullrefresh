@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, Animated } from "react-native";
+import { Animated } from "react-native";
 import DownArrow from "./SVG/DownArrow";
 import RotateCW from "./SVG/RotateCW";
 
